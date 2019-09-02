@@ -43,11 +43,15 @@ repository:
   # The repository readiness probe is used to check startup only as a failure
   # of the liveness probe later will result in the pod being restarted.
   readinessProbe:
+    httpGet:
+      path: "/alfresco"
     initialDelaySeconds: 60
     periodSeconds: 20
     timeoutSeconds: 10
     failureThreshold: 6
   livenessProbe:
+    httpGet:
+      path: "/alfresco"
     initialDelaySeconds: 130
     periodSeconds: 20
     timeoutSeconds: 10
@@ -298,14 +302,6 @@ share:
       memory: "2000Mi"
   environment:
     CATALINA_OPTS: " -Xms1000M -Xmx1000M"
-  readinessProbe:
-    initialDelaySeconds: 60
-    periodSeconds: 20
-    timeoutSeconds: 10
-  livenessProbe:
-    initialDelaySeconds: 130
-    periodSeconds: 20
-    timeoutSeconds: 10
 
 # Defines the mounting points for the persistence required by the apps in the
 # cluster the alf_data folder from alfresco-content-repository app is mapped to

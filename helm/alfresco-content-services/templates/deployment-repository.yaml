@@ -52,7 +52,7 @@ spec:
           {{- end }}
           readinessProbe:
             httpGet:
-              path: /alfresco/api/-default-/public/alfresco/versions/1/probes/-ready-
+              path: {{ .Values.repository.readinessProbe.httpGet.path | default "/alfresco/api/-default-/public/alfresco/versions/1/probes/-ready-" }}
               port: {{ .Values.repository.image.internalPort }}
             initialDelaySeconds: {{ .Values.repository.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.repository.readinessProbe.periodSeconds }}
@@ -60,7 +60,7 @@ spec:
             timeoutSeconds: {{ .Values.repository.readinessProbe.timeoutSeconds }}
           livenessProbe:
             httpGet:
-              path: /alfresco/api/-default-/public/alfresco/versions/1/probes/-live-
+              path: {{ .Values.repository.livenessProbe.httpGet.path | default "/alfresco/api/-default-/public/alfresco/versions/1/probes/-live-" }}
               port: {{ .Values.repository.image.internalPort }}
             initialDelaySeconds: {{ .Values.repository.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.repository.livenessProbe.periodSeconds }}
