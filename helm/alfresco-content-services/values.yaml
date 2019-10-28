@@ -13,7 +13,7 @@ repository:
   replicaCount: 2
   image:
     repository: alfresco/alfresco-content-repository
-    tag: "6.1.1-RC1"
+    tag: "6.1.1.1"
     pullPolicy: Always
     internalPort: 8080
     hazelcastPort: 5701
@@ -219,7 +219,7 @@ aiTransformer:
   replicaCount: 2
   image:
     repository: quay.io/alfresco/alfresco-ai-docker-engine
-    tag: "1.0.1"
+    tag: "1.0.2"
     pullPolicy: Always
     internalPort: 8090
   service:
@@ -285,7 +285,7 @@ share:
   replicaCount: 1
   image:
     repository: alfresco/alfresco-share
-    tag: "6.1.0"
+    tag: "6.1.1.1"
     pullPolicy: Always
     internalPort: 8080
   service:
@@ -357,7 +357,7 @@ alfresco-search:
     # Alfresco Search services endpoint ('/solr') is disabled by default
     # To enable it please see: acs-deployment configuration table](https://github.com/Alfresco/acs-deployment/tree/master/helm/alfresco-content-services#configuration)
     enabled: false
-  registryPullSecrets: "quay-registry-secret"
+  # registryPullSecrets: "quay-registry-secret"
 
 alfresco-digital-workspace:
   enabled: true
@@ -429,10 +429,14 @@ s3connector:
 
 # If there is a need to pull images from a private docker repo, a secret can be defined in helm and passed as an argument
 # to the install command:
-# e.g.: helm install alfresco-content-services --set registryPullSecrets=private-repo-registry-secret
+# e.g.: helm install alfresco-content-services --set global.alfrescoRegistryPullSecrets=quay-registry-secret
 # or uncomment the following line if you don't want/need to pass it as a parameter on every install command :
-# registryPullSecrets: private-repo-registry-secret
+# registryPullSecrets: quay-registry-secret
 # for more information: https://github.com/Alfresco/alfresco-anaxes-shipyard/blob/master/SECRETS.md
+
+# Global definition of Docker registry pull secret which can be accessed by dependent ACS Helm chart(s)
+global:
+  alfrescoRegistryPullSecrets:
 
 alfresco-sync-service:
    enabled : true

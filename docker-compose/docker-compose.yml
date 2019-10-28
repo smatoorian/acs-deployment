@@ -1,5 +1,5 @@
 # This docker-compose file will spin up an ACS cluster on a local host or on a server and it requires a minimum of 13GB Memory to distribute among containers.
-# 
+#
 # For performance tuning, assign the container memory and give a percentage of it to the JVM.
 # Use either the -Xms,-Xmx flags or the newly added flags in java 10+: -XX:MaxRAMPercentage and -XX:MinRAMPercentage. More details here: https://www.oracle.com/technetwork/java/javase/10-relnote-issues-4108729.html
 
@@ -12,7 +12,7 @@ version: "2"
 
 services:
     alfresco:
-        image: alfresco/alfresco-content-repository:6.1.1-RC1
+        image: alfresco/alfresco-content-repository:6.1.1.1
         mem_limit: 1700m
         environment:
             JAVA_OPTS: "
@@ -119,7 +119,7 @@ services:
             - shared-file-store-volume:/tmp/Alfresco/sfs
 
     share:
-        image: alfresco/alfresco-share:6.1.0
+        image: alfresco/alfresco-share:6.1.1.1
         mem_limit: 1g
         environment:
             REPO_HOST: "alfresco"
@@ -145,7 +145,7 @@ services:
             - 5432:5432
 
     solr6:
-        image: alfresco/alfresco-search-services:1.3.0.1
+        image: alfresco/alfresco-search-services:1.4.0
         mem_limit: 2g
         environment:
             #Solr needs to know how to register itself with Alfresco
@@ -156,6 +156,8 @@ services:
             - SOLR_SOLR_PORT=8983
             #Create the default alfresco and archive cores
             - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
+            #HTTP by default
+            - ALFRESCO_SECURE_COMMS=none
             - "SOLR_JAVA_MEM=-Xms2g -Xmx2g"
         ports:
             - 8083:8983 #Browser port
@@ -187,9 +189,9 @@ services:
             - digital-workspace
             - alfresco
             - share
-            
+
     sync-service:
-        image: quay.io/alfresco/service-sync:3.1.2-RC2
+        image: quay.io/alfresco/service-sync:3.1.2
         mem_limit: 1g
         environment:
             JAVA_OPTS : "
