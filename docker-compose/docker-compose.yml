@@ -19,7 +19,7 @@ services:
                 -Ddb.driver=org.postgresql.Driver
                 -Ddb.username=alfresco
                 -Ddb.password=alfresco
-                -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+                -Ddb.url=jdbc:postgresql://repo-database-1-instance-1.cijbca5yttz2.eu-west-1.rds.amazonaws.com:5432/postgres
                 -Dsolr.host=solr6
                 -Dsolr.port=8983
                 -Dsolr.secureComms=none
@@ -160,16 +160,16 @@ services:
                 -Dalfresco.protocol=http
                 "
 
-    postgres:
-        image: postgres:11.4
-        mem_limit: 512m
-        environment:
-            - POSTGRES_PASSWORD=alfresco
-            - POSTGRES_USER=alfresco
-            - POSTGRES_DB=alfresco
-        command: postgres -c max_connections=300 -c log_min_messages=LOG
-        ports:
-            - 5432:5432
+#    postgres:
+#        image: postgres:11.4
+#        mem_limit: 512m
+#        environment:
+#            - POSTGRES_PASSWORD=alfresco
+#            - POSTGRES_USER=alfresco
+#            - POSTGRES_DB=alfresco
+#        command: postgres -c max_connections=300 -c log_min_messages=LOG
+#        ports:
+#            - 5432:5432
 
     solr6:
         image: alfresco/alfresco-search-services:1.4.0
