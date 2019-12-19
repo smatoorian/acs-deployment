@@ -223,7 +223,7 @@ services:
         environment:
             JAVA_OPTS : "
             -Dsql.db.driver=org.postgresql.Driver
-            -Dsql.db.url=jdbc:postgresql://postgres:5432/alfresco
+            -Dsql.db.url=jdbc:postgresql://repo-database-1-instance-1.cijbca5yttz2.eu-west-1.rds.amazonaws.com:5432/postgres
             -Dsql.db.username=alfresco
             -Dsql.db.password=alfresco
             -Dmessaging.broker.host=activemq
