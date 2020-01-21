@@ -1,0 +1,9 @@
+{{- if .Values.share.namespaceOverride }}  
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ template "content-services.shortname" . }}-share
+spec:
+  type: ExternalName
+  externalName: {{ template "content-services.shortname" . }}-share.{{ .Values.share.namespaceOverride | default .Release.Namespace }}.svc.cluster.local
+{{- end }}

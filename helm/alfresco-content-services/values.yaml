@@ -316,6 +316,7 @@ filestore:
 # Define the alfresco-share properties to use in the k8s cluster
 # This is the default presentation layer(UI) of Alfresco Content Services
 share:
+  # namespaceOverride: 
   replicaCount: 1
   image:
     repository: alfresco/alfresco-share

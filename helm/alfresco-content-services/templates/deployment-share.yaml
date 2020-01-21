@@ -3,6 +3,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "content-services.shortname" . }}-share
+  {{- if .Values.share.namespaceOverride }}
+  namespace: {{ .Values.share.namespaceOverride | default .Release.Namespace }}
+  {{- end }}
   labels:
     app: {{ template "content-services.shortname" . }}-share
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
