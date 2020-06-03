@@ -12,7 +12,14 @@ version: "2"
 
 services:
     alfresco:
-        image: alfresco/alfresco-content-repository:6.1.1.2
+        # image: alfresco/alfresco-content-repository:6.1.1.2
+        container_name: alfresco6112-kerberos
+        hostname: alfresco6112
+        build:
+            context: ./config/alfresco
+        extra_hosts:
+            - "dc01.example.com:192.168.100.25"
+            - "dc01:192.168.100.25"
         mem_limit: 1700m
         environment:
             JAVA_OPTS: "
@@ -42,6 +49,29 @@ services:
                 -Dcsrf.filter.enabled=false
                 -Ddsync.service.uris=http://localhost:9090/alfresco
                 -Xms1500m -Xmx1500m
+                
+                -Dldap.authentication.allowGuestLogin=false
+                -Dldap.authentication.userNameFormat=%s@example.com
+                -Dldap.authentication.java.naming.provider.url=ldap://192.168.100.25:389
+                -Dldap.authentication.defaultAdministratorUserNames=joe.bloggs,vagrant
+                -Dldap.authentication.active=false
+
+                -Dsynchronization.autoCreatePeopleOnLogin=false
+                -Dldap.synchronization.active=true 
+                
+                -Dldap.synchronization.java.naming.security.principal=alfresco.ldap@example.com
+                -Dldap.synchronization.java.naming.security.credentials=C0mplexPassword
+                -Dldap.synchronization.groupSearchBase=OU=Alfresco-Groups,DC=example,DC=com
+                -Dldap.synchronization.userSearchBase=OU=Alfresco-Users,DC=example,DC=com
+
+                -Dkerberos.authentication.realm=EXAMPLE.COM
+                -Dkerberos.authentication.user.configEntryName=Alfresco
+                -Dkerberos.authentication.defaultAdministratorUserNames=joe.bloggs,vagrant
+                -Dkerberos.authentication.http.configEntryName=AlfrescoHTTP
+                -Dkerberos.authentication.http.password=HeyH0Password
+                -Dkerberos.authentication.sso.enabled=true
+
+                -Dauthentication.chain=kerberos1:kerberos,alfrescoNtlm1:alfrescoNtlm,ldap1:ldap-ad
                 "
 
     transform-router:
@@ -119,8 +149,15 @@ services:
             - shared-file-store-volume:/tmp/Alfresco/sfs
 
     share:
-        image: alfresco/alfresco-share:6.1.1.1
+        #image: alfresco/alfresco-share:6.1.1.1
+        container_name: share6111-kerberos
+        hostname: share6111
+        build:
+            context: ./config/share
         mem_limit: 1g
+        extra_hosts:
+            - "dc01.example.com:192.168.100.25"
+            - "dc01:192.168.100.25"
         environment:
             REPO_HOST: "alfresco"
             REPO_PORT: "8080"
