@@ -28,7 +28,10 @@ node "ACS namespace" {
         component "LibreOffice" as libr #lightgrey
         component "ImageMagick" as img #lightgrey
         component "Tika" as tika #lightgrey
+<<<<<<< HEAD
         component "TransformMisc" as misc #lightgrey
+=======
+>>>>>>> 6.1.1.2-kerberos-testing
         component "AI T-Engine" as aiEngine #lightgrey
     }
 }
@@ -61,21 +64,30 @@ acs --> pdfr
 acs --> libr
 acs --> img
 acs --> tika
+<<<<<<< HEAD
 acs --> misc
+=======
+>>>>>>> 6.1.1.2-kerberos-testing
 acs --> sfs
 acs <--> mq
 tr -up-> pdfr
 tr -up-> libr
 tr -up-> img
 tr -up-> tika
+<<<<<<< HEAD
 tr -up-> misc
+=======
+>>>>>>> 6.1.1.2-kerberos-testing
 tr -up-> aiEngine
 tr <--> mq
 pdfr --> sfs
 libr --> sfs
 img --> sfs
 tika --> sfs
+<<<<<<< HEAD
 misc --> sfs
+=======
+>>>>>>> 6.1.1.2-kerberos-testing
 share --> acs
 aiEngine --> sfs
 aiEngine --> s3ai
