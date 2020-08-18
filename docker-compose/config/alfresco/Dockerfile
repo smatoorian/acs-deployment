@@ -1,16 +1,14 @@
 FROM alfresco/alfresco-content-repository:6.2.2
 
-# Customize container: Single Sign On via Kerberos
+# Customize container: install amps
+
+ARG TOMCAT_DIR=/usr/local/tomcat
 
 USER root
 
-RUN yum install -y krb5-workstation
+ADD ./amps/*.amp ${TOMCAT_DIR}/amps/
 
-COPY kerberos_files/krb5.conf /etc
-COPY kerberos_files/alfresco.keytab /etc
-COPY kerberos_files/java.login.config /usr/java/default/conf/security
+RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
+	${TOMCAT_DIR}/amps ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup -force
 
-RUN chown -R root:root /usr/java/default/conf/security /etc/krb5.conf /etc/*.keytab && \
-    echo "login.config.url.1=file:/usr/java/default/conf/security/java.login.config" >> /usr/java/default/conf/security/java.security
-    
 USER alfresco
